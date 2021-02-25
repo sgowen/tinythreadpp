@@ -188,6 +188,7 @@ void * thread::wrapper_function(void * aArg)
   // Get thread wrapper information
   _thread_wrapper * tw = (_thread_wrapper *) aArg;
 
+#ifdef __EXCEPTIONS
   try
   {
     // Call the actual client thread function
@@ -199,6 +200,9 @@ void * thread::wrapper_function(void * aArg)
     // according to C++11)
     std::terminate();
   }
+#else
+  tw->run();
+#endif
 
   // The thread is no longer executing
   if(tw->release())
